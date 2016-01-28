@@ -6,9 +6,7 @@
 #
 # [] Created By : Parham Alvani (parham.alvani@gmail.com)
 # =======================================
-add_executable ()
-
-target_link_libraries ()
+add_executable (APSARA.out apsara.c matching.h)
 
 # Add personal c flags
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -O0 -g -std=gnu11 ")
