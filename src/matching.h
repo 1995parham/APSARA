@@ -22,6 +22,6 @@ struct matching {
 
 const struct matching *matching_new(int n, int m, const int match[]);
 
-void matching_delete(struct matching *m);
+void matching_delete(const struct matching *m);
 
 #endif

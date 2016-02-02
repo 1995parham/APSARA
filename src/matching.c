@@ -28,9 +28,9 @@ const struct matching *matching_new(int n, int m, const int match[])
 	return new;
 }
 
-void matching_delete(struct matching *m)
+void matching_delete(const struct matching *m)
 {
 	free(m->match);
-	free(m);
+	free((void *) m);
 }
 
