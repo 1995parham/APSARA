@@ -20,7 +20,7 @@ struct matching {
 	int *match;
 };
 
-const struct matching *matching_new(int n, int m, const int[] match);
+const struct matching *matching_new(int n, int m, const int match[]);
 
 void matching_delete(struct matching *m);
 
