@@ -19,21 +19,23 @@ static const struct matching **neighbors_matching(const struct matching *m)
 {
 	const struct matching **res;
 	int *match;
-	int i, j;
+	int i, j, counter;
 
 	res = malloc((m->n * (m->n - 1) / 2) * sizeof(struct matching *));
 	match = malloc(m->n * sizeof(int));
 	for (i = 0; i < m->n; i++)
 		match[i] = m->match[i];
 
+	counter = 0;
 	for (i = 0; i < m->n; i++) {
-		for (j = i; j < m->n; j++) {
+		for (j = i + 1; j < m->n; j++) {
 			match[i] = m->match[j];
 			match[j] = m->match[i];
-			res[i * (m->n - 1) + j - i - 1] = matching_new(m->n, m->m, match);
+			res[counter + j - i - 1] = matching_new(m->n, m->m, match);
 			match[i] = m->match[i];
 			match[j] = m->match[j];
 		}
+		counter += m->n - i - 1;
 	}
 	return res;
 }
