@@ -18,6 +18,6 @@
 int main(int argc, char *argv[])
 {
 	struct sw *s = switch_new(4, 4);
-	matching_print(s->m, stdout);
+	switch_print(s, stdout);
 }
 
