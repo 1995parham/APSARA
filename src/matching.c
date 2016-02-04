@@ -41,5 +41,5 @@ void matching_print(const struct matching *m, FILE *fp)
 
 	fprintf(fp, "|  n  |    |  m  |\n");
 	for (i = 0; i < m->n; i++)
-		fprintf(fp, "|%5d| -> |%5d|\n", i, m->match[i]);
+		fprintf(fp, "|%5d| -> |%5d|\n", i + 1, m->match[i] + 1);
 }
