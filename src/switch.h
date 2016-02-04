@@ -28,7 +28,7 @@ struct sw *switch_new(int in_port, int out_port);
 
 void switch_set_current_matching(struct sw *s, const int match[]);
 
-void switch_put_in_quque(struct sw *s, int in_port, int out_port, int number);
+void switch_put_in_queue(struct sw *s, int in_port, int out_port, int number);
 
 void switch_proccess(struct sw *s);
 
