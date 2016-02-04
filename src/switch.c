@@ -62,7 +62,7 @@ void switch_print(struct sw *s, FILE *fp)
 {
 	int i, j;
 
-	fprintf(fp, "-------- SWITCH --------\n");
+	fprintf(fp, "======== SWITCH ========\n");
 	
 	fprintf(fp, "\n\n");
 
