@@ -8,6 +8,7 @@
 # =======================================
 add_executable (APSARA.out matching.h switch.h
 	matching.c switch.c switch-apsara.c
+	permutation.h permutation.c
 	main.c)
 
 # Add personal c flags
