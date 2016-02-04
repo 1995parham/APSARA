@@ -15,6 +15,8 @@
 #ifndef SWITCH_H
 #define SWITCH_H
 
+#include <stdio.h>
+
 struct sw {
 	const struct matching *m;
 	int in_port;
