@@ -12,12 +12,26 @@
  * Copyright (c) 2016 Parham Alvani.
 */
 #include <stdio.h>
+#include <stdlib.h>
 #include "switch.h"
 #include "matching.h"
 
+#define TEST_NO 4
+#define IN_PORTS 4
+#define OUT_PORTS 4
+
 int main(int argc, char *argv[])
 {
-	struct sw *s = switch_new(4, 4);
-	switch_print(s, stdout);
+	struct sw *s = switch_new(IN_PORTS, OUT_PORTS);
+
+	int i;
+	for (i = 0; i < TEST_NO; i++) {
+		switch_print(s, stdout);
+		int in = rand() % IN_PORTS;
+		int out = rand() % OUT_PORTS;
+		switch_put_in_queue(s, in, out, 1);
+		switch_proccess(s);
+		switch_next_matching(s);
+	}
 }
 
