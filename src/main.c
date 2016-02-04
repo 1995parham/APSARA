@@ -26,6 +26,7 @@ int main(int argc, char *argv[])
 
 	int i;
 	for (i = 0; i < TEST_NO; i++) {
+		printf("\n\nTEST #%d\n", i + 1);
 		switch_print(s, stdout);
 		switch_process(s);
 		int in = rand() % IN_PORTS;
