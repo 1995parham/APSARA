@@ -54,7 +54,8 @@ void switch_proccess(struct sw *s)
 {
 	int i;
 	for (i = 0; i < s->out_port; i++)
-		s->queue[i][s->m->match[i]] = 0;
+		if (s->queue[i][s->m->match[i]] > 0)
+			s->queue[i][s->m->match[i]]--;
 }
 
 void switch_print(struct sw *s, FILE *fp)
