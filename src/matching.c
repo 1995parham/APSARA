@@ -12,6 +12,7 @@
  * Copyright (c) 2016 Parham Alvani.
 */
 #include <stdlib.h>
+#include <stdio.h>
 #include "matching.h"
 
 const struct matching *matching_new(int n, int m, const int match[])
@@ -34,3 +35,11 @@ void matching_delete(const struct matching *m)
 	free((void *) m);
 }
 
+void matching_print(const struct matching *m, FILE *fp)
+{
+	int i;
+
+	fprintf(fp, "|  n  |    |  m  |\n");
+	for (i = 0; i < m->n; i++)
+		fprintf(fp, "|%5d| -> |%5d|\n", i, m->match[i]);
+}
