@@ -12,6 +12,7 @@
  * Copyright (c) 2016 Parham Alvani.
 */
 #include <stdlib.h>
+#include <stdio.h>
 #include "switch.h"
 #include "matching.h"
 
@@ -54,4 +55,33 @@ void switch_proccess(struct sw *s)
 	int i;
 	for (i = 0; i < s->out_port; i++)
 		s->queue[i][s->m->match[i]] = 0;
+}
+
+void switch_print(struct sw *s, FILE *fp)
+{
+	int i, j;
+
+	fprintf(fp, "-------- SWITCH --------\n");
+	
+	fprintf(fp, "\n\n");
+
+	fprintf(fp, "-------- QUEUES --------\n");
+
+	fprintf(fp, "in/out ");
+	for (i = 0; i < s->out_port; i++)
+		fprintf(fp, "%6d ", i + 1);
+	fprintf(fp, "\n");
+	for (i = 0; i < s->in_port; i++) {
+		fprintf(fp, "%6d ", i + 1);
+		for (j = 0; j < s->out_port; j++) {
+			fprintf(fp, "%6d ", s->queue[i][j]);	
+		}
+		fprintf(fp, "\n");
+	}
+	
+	fprintf(fp, "\n\n");
+	
+	fprintf(fp, "-------- MATCHING --------\n");
+
+	matching_print(s->m, fp);
 }

@@ -34,4 +34,6 @@ void switch_proccess(struct sw *s);
 
 void switch_next_matching(struct sw *s);
 
+void switch_print(struct sw *s, FILE *fp);
+
 #endif
