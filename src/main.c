@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 	int i;
 	for (i = 0; i < TEST_NO; i++) {
 		switch_print(s, stdout);
-		switch_proccess(s);
+		switch_process(s);
 		int in = rand() % IN_PORTS;
 		int out = rand() % OUT_PORTS;
 		switch_put_in_queue(s, in, out, 1);

@@ -30,7 +30,7 @@ void switch_set_current_matching(struct sw *s, const int match[]);
 
 void switch_put_in_queue(struct sw *s, int in_port, int out_port, int number);
 
-void switch_proccess(struct sw *s);
+void switch_process(struct sw *s);
 
 void switch_next_matching(struct sw *s);
 

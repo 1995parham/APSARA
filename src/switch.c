@@ -50,7 +50,7 @@ void switch_put_in_queue(struct sw *s, int in_port, int out_port, int number)
 	s->queue[in_port][out_port] += number;
 }
 
-void switch_proccess(struct sw *s)
+void switch_process(struct sw *s)
 {
 	int i;
 	for (i = 0; i < s->out_port; i++)
