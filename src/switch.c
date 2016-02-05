@@ -38,6 +38,8 @@ struct sw *switch_new(int in_port, int out_port)
 
 	new->t = 0;
 
+	new->throughput = 0;
+
 	return new;	
 }
 
@@ -55,9 +57,12 @@ void switch_put_in_queue(struct sw *s, int in_port, int out_port, int number)
 void switch_process(struct sw *s)
 {
 	int i;
-	for (i = 0; i < s->out_port; i++)
-		if (s->queue[i][s->m->match[i]] > 0)
+	for (i = 0; i < s->out_port; i++) {
+		if (s->queue[i][s->m->match[i]] > 0) {
 			s->queue[i][s->m->match[i]]--;
+			s->throughput++;
+		}
+	}
 	s->t++;
 }
 

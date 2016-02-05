@@ -23,6 +23,7 @@ struct sw {
 	int out_port;
 	int **queue;
 	int t;
+	int throughput;
 };
 
 struct sw *switch_new(int in_port, int out_port);
