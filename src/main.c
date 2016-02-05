@@ -16,23 +16,34 @@
 #include "switch.h"
 #include "matching.h"
 
-#define TEST_NO 4
-#define IN_PORTS 4
-#define OUT_PORTS 4
-
 int main(int argc, char *argv[])
 {
-	struct sw *s = switch_new(IN_PORTS, OUT_PORTS);
+	int test_no, ports, printing;
+
+	printf("Simulation Times: ");
+	scanf("%d", &test_no);
+	
+	printf("Switch Ports: ");
+	scanf("%d", &ports);
+
+	printf("Printing (0/1)? ");
+	scanf("%d", &printing);
+
+	struct sw *s = switch_new(ports, ports);
 
 	int i;
-	for (i = 0; i < TEST_NO; i++) {
-		printf("\n\nTEST #%d\n", i + 1);
-		switch_print(s, stdout);
+	for (i = 0; i < test_no; i++) {
+		if (printing) {
+			printf("\n\nTEST #%d\n", i + 1);
+			switch_print(s, stdout);
+		}
 		switch_process(s);
-		int in = rand() % IN_PORTS;
-		int out = rand() % OUT_PORTS;
+		int in = rand() % ports;
+		int out = rand() % ports;
 		switch_put_in_queue(s, in, out, 1);
 		switch_next_matching(s);
 	}
+
+	printf("%g\n", (double) s->throughput / test_no);
 }
 
