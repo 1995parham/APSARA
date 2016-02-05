@@ -46,3 +46,12 @@ struct matching {
 	int *match;
 }
 ```
+## Switch Throughput
+These result obtained in 31058 times simulation.
+| Ports | Throughput |
+| :---- | :--------: |
+| 4     |  0.263539  |
+| 5     |  0.262927  |
+| 6     |  0.295125  |
+| 7     |  0.232275  |
+| 8     |  0.271685  |
