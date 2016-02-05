@@ -48,6 +48,7 @@ struct matching {
 ```
 ## Switch Throughput
 These result obtained in 31058 times simulation.
+
 | Ports | Throughput |
 | :---- | :--------: |
 | 4     |  0.263539  |
