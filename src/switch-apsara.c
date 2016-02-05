@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include "switch.h"
 #include "matching.h"
+#include "permutation.h"
 
 static const struct matching **neighbors_matching(const struct matching *m)
 {
@@ -51,9 +52,25 @@ static int calculate_cost(int **queue, const struct matching *m)
 	return res;
 }
 
+static const struct matching *hamiltonian_matching(int t, int n, int m)
+{
+	int i;
+	int *v;
+
+	v = malloc(n * sizeof(int));
+	for (i = 0; i < n; i++)
+		v[i] = i;
+	permutation(t, v, n);
+
+	const struct matching *res = matching_new(n, m, v);
+	free(v);
+	return res;
+}
+
 void switch_next_matching(struct sw *s)
 {
 	const struct matching **neighbors;
+	const struct matching *hamilton;
 	int index;
 	int max;
 	int i;
@@ -69,10 +86,21 @@ void switch_next_matching(struct sw *s)
 		}
 	}
 
-	if (index != -1)
-		s->m = neighbors[index];
+	hamilton = hamiltonian_matching(s->t + 1, s->out_port, s->in_port);
+	int temp = calculate_cost(s->queue, hamilton);
+	if (max < temp) {
+		index = -2;
+		max = temp;
+	}
+
+	if (index >= 0)
+		switch_set_current_matching(s, neighbors[index]->match);
+
+	if (index == -2)
+		switch_set_current_matching(s, hamilton->match);
 	
 	for (i = 0; i < (s->out_port * (s->out_port - 1) / 2); i++)
-		if (index != i)
 			matching_delete(neighbors[i]);
+	free(neighbors);
+	matching_delete(hamilton);
 }
