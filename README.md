@@ -20,6 +20,7 @@ that correspond to the Hamiltonian walk at time t + 1.
 Compute the weight of every matching Y ∈ S(t + 1) as W(Y) = Σij y_{ij} * q_{ij}(t + 1).
 * Determine the matching at time t + 1 given by
 X(t + 1) = arg max (U ∈ S(t + 1)) (W(U))
+
 ## Implementation
 My personal implementation exists at `src/switch-apsara.c` but you can
 create your implementation in this platform easily, you must implement
