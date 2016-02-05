@@ -36,6 +36,7 @@ struct sw {
 	int in_port;
 	int out_port;
 	int **queue;
+	int throughput;
 	int t;
 }
 ```
