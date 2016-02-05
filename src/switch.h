@@ -22,6 +22,7 @@ struct sw {
 	int in_port;
 	int out_port;
 	int **queue;
+	int t;
 };
 
 struct sw *switch_new(int in_port, int out_port);

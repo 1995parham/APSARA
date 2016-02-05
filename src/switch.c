@@ -36,6 +36,8 @@ struct sw *switch_new(int in_port, int out_port)
 	new->m = matching_new(out_port, in_port, match);
 	free(match);
 
+	new->t = 0;
+
 	return new;	
 }
 
@@ -56,13 +58,14 @@ void switch_process(struct sw *s)
 	for (i = 0; i < s->out_port; i++)
 		if (s->queue[i][s->m->match[i]] > 0)
 			s->queue[i][s->m->match[i]]--;
+	s->t++;
 }
 
 void switch_print(struct sw *s, FILE *fp)
 {
 	int i, j;
 
-	fprintf(fp, "======== SWITCH ========\n");
+	fprintf(fp, "======== SWITCH [%d] ========\n", s->t);
 	
 	fprintf(fp, "\n\n");
 
