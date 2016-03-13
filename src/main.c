@@ -20,7 +20,7 @@
 
 int main(int argc, char *argv[])
 {
-	int test_no, ports;
+	int test_no, ports, load;
 	char path[1024];
 	FILE *log_file;
 
@@ -29,6 +29,11 @@ int main(int argc, char *argv[])
 	
 	printf("Switch Ports: ");
 	scanf("%d", &ports);
+
+	printf("Load (0 to 100): ");
+	scanf("%d", &load);
+	if (load < 0 || load > 100)
+		load = 80;
 
 	printf("LogFile (empty for not logging)? ");
 	getchar();
@@ -40,17 +45,21 @@ int main(int argc, char *argv[])
 
 	struct sw *s = switch_new(ports, ports);
 
-	int i;
+	int i, in, out;
+
 	for (i = 0; i < test_no; i++) {
 		if (log_file) {
 			fprintf(log_file, "\n\nFRAME #%d\n", i + 1);
 			switch_print(s, log_file);
 		}
-		switch_process(s);
-		int in = rand() % ports;
-		int out = rand() % ports;
-		switch_put_in_queue(s, in, out, 1);
+		for (in = 0; in < ports; in++) {
+			for (out = 0; out < ports; out++) {
+				if (rand() % 100 < load)
+					switch_put_in_queue(s, in, out, 1);
+			}
+		}
 		switch_next_matching(s);
+		switch_process(s);
 	}
 
 	printf("%g\n", (double) s->throughput / test_no);
