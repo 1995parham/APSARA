@@ -22,7 +22,7 @@ static const struct matching **neighbors_matching(const struct matching *m)
 	int *match;
 	int i, j, counter;
 
-	res = malloc((m->n * (m->n - 1) / 2) * sizeof(struct matching *));
+	res = malloc(((m->n * (m->n - 1)) / 2) * sizeof(struct matching *));
 	match = malloc(m->n * sizeof(int));
 	for (i = 0; i < m->n; i++)
 		match[i] = m->match[i];
@@ -47,7 +47,7 @@ static int calculate_cost(int **queue, const struct matching *m)
 	int i;
 
 	for (i = 0; i < m->n; i++)
-		res += queue[m->match[i]][i];
+		res += queue[i][m->match[i]] > 0 ? 1 : 0;
 
 	return res;
 }
@@ -78,7 +78,7 @@ void switch_next_matching(struct sw *s)
 	neighbors = neighbors_matching(s->m);
 	index = -1;
 	max = calculate_cost(s->queue, s->m);
-	for (i = 0; i < (s->ports * (s->ports - 1) / 2); i++) {
+	for (i = 0; i < (s->ports * (s->ports - 1)) / 2; i++) {
 		int temp = calculate_cost(s->queue, neighbors[i]);
 		if (max < temp) {
 			index = i;
@@ -99,7 +99,7 @@ void switch_next_matching(struct sw *s)
 	if (index == -2)
 		switch_set_current_matching(s, hamilton->match);
 	
-	for (i = 0; i < (s->ports * (s->ports - 1) / 2); i++)
+	for (i = 0; i < (s->ports * (s->ports - 1))/ 2; i++)
 			matching_delete(neighbors[i]);
 	free(neighbors);
 	matching_delete(hamilton);
