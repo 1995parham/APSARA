@@ -23,6 +23,7 @@ int main(int argc, char *argv[])
 	int test_no, ports, load;
 	char path[1024];
 	FILE *log_file;
+	int packet_no;
 
 	printf("Simulation Times: ");
 	scanf("%d", &test_no);
@@ -39,9 +40,10 @@ int main(int argc, char *argv[])
 	getchar();
 	fgets(path, 1024, stdin);
 	path[strlen(path) - 1] = 0;
-
 	if (*path)
 		log_file = fopen(path, "w");
+
+	packet_no = 0;
 
 	struct sw *s = switch_new(ports, ports);
 
@@ -54,14 +56,16 @@ int main(int argc, char *argv[])
 		}
 		for (in = 0; in < ports; in++) {
 			for (out = 0; out < ports; out++) {
-				if (rand() % 100 < load)
+				if (rand() % 100 < load) {
 					switch_put_in_queue(s, in, out, 1);
+					packet_no++;
+				}
 			}
 		}
 		switch_next_matching(s);
 		switch_process(s);
 	}
 
-	printf("%g\n", (double) s->throughput / test_no);
+	printf("%g\n", (double) s->throughput / packet_no);
 }
 
