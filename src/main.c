@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
 
 	packet_no = 0;
 
-	struct sw *s = switch_new(ports, ports);
+	struct sw *s = switch_new(ports);
 
 	int i, in, out;
 

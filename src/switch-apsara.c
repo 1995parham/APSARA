@@ -32,7 +32,7 @@ static const struct matching **neighbors_matching(const struct matching *m)
 		for (j = i + 1; j < m->n; j++) {
 			match[i] = m->match[j];
 			match[j] = m->match[i];
-			res[counter + j - i - 1] = matching_new(m->n, m->m, match);
+			res[counter + j - i - 1] = matching_new(m->n, match);
 			match[i] = m->match[i];
 			match[j] = m->match[j];
 		}
@@ -52,7 +52,7 @@ static int calculate_cost(int **queue, const struct matching *m)
 	return res;
 }
 
-static const struct matching *hamiltonian_matching(int t, int n, int m)
+static const struct matching *hamiltonian_matching(int t, int n)
 {
 	int i;
 	int *v;
@@ -62,7 +62,7 @@ static const struct matching *hamiltonian_matching(int t, int n, int m)
 		v[i] = i;
 	permutation(t, v, n);
 
-	const struct matching *res = matching_new(n, m, v);
+	const struct matching *res = matching_new(n, v);
 	free(v);
 	return res;
 }
@@ -78,7 +78,7 @@ void switch_next_matching(struct sw *s)
 	neighbors = neighbors_matching(s->m);
 	index = -1;
 	max = calculate_cost(s->queue, s->m);
-	for (i = 0; i < (s->out_port * (s->out_port - 1) / 2); i++) {
+	for (i = 0; i < (s->ports * (s->ports - 1) / 2); i++) {
 		int temp = calculate_cost(s->queue, neighbors[i]);
 		if (max < temp) {
 			index = i;
@@ -86,7 +86,7 @@ void switch_next_matching(struct sw *s)
 		}
 	}
 
-	hamilton = hamiltonian_matching(s->t + 1, s->out_port, s->in_port);
+	hamilton = hamiltonian_matching(s->t + 1, s->ports);
 	int temp = calculate_cost(s->queue, hamilton);
 	if (max < temp) {
 		index = -2;
@@ -99,7 +99,7 @@ void switch_next_matching(struct sw *s)
 	if (index == -2)
 		switch_set_current_matching(s, hamilton->match);
 	
-	for (i = 0; i < (s->out_port * (s->out_port - 1) / 2); i++)
+	for (i = 0; i < (s->ports * (s->ports - 1) / 2); i++)
 			matching_delete(neighbors[i]);
 	free(neighbors);
 	matching_delete(hamilton);
