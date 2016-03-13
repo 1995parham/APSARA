@@ -58,8 +58,8 @@ void switch_process(struct sw *s)
 	int i;
 	for (i = 0; i < s->ports; i++) {
 		if (s->queue[i][s->m->match[i]] > 0) {
-			s->queue[i][s->m->match[i]]--;
-			s->throughput++;
+			s->throughput += s->queue[i][s->m->match[i]];
+			s->queue[i][s->m->match[i]] = 0;
 		}
 	}
 	s->t++;

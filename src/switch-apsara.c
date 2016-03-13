@@ -47,7 +47,7 @@ static int calculate_cost(int **queue, const struct matching *m)
 	int i;
 
 	for (i = 0; i < m->n; i++)
-		res += queue[i][m->match[i]] > 0 ? 1 : 0;
+		res += queue[i][m->match[i]];
 
 	return res;
 }
