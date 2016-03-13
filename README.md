@@ -26,7 +26,7 @@ My personal implementation exists at `src/switch-apsara.c` but you can
 create your implementation in this platform easily, you must implement
 following method:
 ```c
-void switch_next_matchin(struct sw *s)
+void switch_next_matching(struct sw *s)
 ```
 for better use of this simple switch simulating platform it is better to
 read these structure:
