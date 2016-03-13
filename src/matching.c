@@ -15,11 +15,10 @@
 #include <stdio.h>
 #include "matching.h"
 
-const struct matching *matching_new(int n, int m, const int match[])
+const struct matching *matching_new(int n, const int match[])
 {
 	struct matching *new = malloc(sizeof(struct matching));
 	new->n = n;
-	new->m = m;
 	new->match = malloc(sizeof(int) * n);
 
 	int i;

@@ -19,14 +19,13 @@
 
 struct sw {
 	const struct matching *m;
-	int in_port;
-	int out_port;
+	int ports;
 	int **queue;
 	int t;
 	int throughput;
 };
 
-struct sw *switch_new(int in_port, int out_port);
+struct sw *switch_new(int ports);
 
 void switch_set_current_matching(struct sw *s, const int match[]);
 

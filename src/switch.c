@@ -16,24 +16,23 @@
 #include "switch.h"
 #include "matching.h"
 
-struct sw *switch_new(int in_port, int out_port)
+struct sw *switch_new(int ports)
 {
 	struct sw *new = malloc(sizeof(struct sw));
-	new->in_port = in_port;
-	new->out_port = out_port;
+	new->ports = ports;
 	
 	int i, j;
-	new->queue = malloc(in_port * sizeof(int *));
-	for (i = 0; i < in_port; i++) {
-		new->queue[i] = malloc(out_port * sizeof(int));
-		for (j = 0; j < out_port; j++)
+	new->queue = malloc(ports * sizeof(int *));
+	for (i = 0; i < ports; i++) {
+		new->queue[i] = malloc(ports * sizeof(int));
+		for (j = 0; j < ports; j++)
 			new->queue[i][j] = 0;
 	}
 
-	int *match = malloc(out_port * sizeof(int));
-	for (i = 0; i < out_port && i < in_port; i++)
+	int *match = malloc(ports * sizeof(int));
+	for (i = 0; i < ports && i < ports; i++)
 		match[i] = i;
-	new->m = matching_new(out_port, in_port, match);
+	new->m = matching_new(ports, match);
 	free(match);
 
 	new->t = 0;
@@ -46,7 +45,7 @@ struct sw *switch_new(int in_port, int out_port)
 void switch_set_current_matching(struct sw *s, const int match[])
 {
 	matching_delete(s->m);
-	s->m = matching_new(s->out_port, s->in_port, match);
+	s->m = matching_new(s->ports, match);
 }
 
 void switch_put_in_queue(struct sw *s, int in_port, int out_port, int number)
@@ -57,7 +56,7 @@ void switch_put_in_queue(struct sw *s, int in_port, int out_port, int number)
 void switch_process(struct sw *s)
 {
 	int i;
-	for (i = 0; i < s->out_port; i++) {
+	for (i = 0; i < s->ports; i++) {
 		if (s->queue[i][s->m->match[i]] > 0) {
 			s->queue[i][s->m->match[i]]--;
 			s->throughput++;
@@ -77,12 +76,12 @@ void switch_print(struct sw *s, FILE *fp)
 	fprintf(fp, "-------- QUEUES --------\n");
 
 	fprintf(fp, "in/out ");
-	for (i = 0; i < s->out_port; i++)
+	for (i = 0; i < s->ports; i++)
 		fprintf(fp, "%6d ", i + 1);
 	fprintf(fp, "\n");
-	for (i = 0; i < s->in_port; i++) {
+	for (i = 0; i < s->ports; i++) {
 		fprintf(fp, "%6d ", i + 1);
-		for (j = 0; j < s->out_port; j++) {
+		for (j = 0; j < s->ports; j++) {
 			fprintf(fp, "%6d ", s->queue[i][j]);	
 		}
 		fprintf(fp, "\n");

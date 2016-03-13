@@ -16,11 +16,11 @@
 #define MATCHING_H
 
 struct matching {
-	int n, m;
+	int n;
 	int *match;
 };
 
-const struct matching *matching_new(int n, int m, const int match[]);
+const struct matching *matching_new(int n, const int match[]);
 
 void matching_delete(const struct matching *m);
 
