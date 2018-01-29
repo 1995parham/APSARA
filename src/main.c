@@ -39,15 +39,16 @@ int main(int argc, char *argv[])
 	printf("LogFile (empty for not logging)? ");
 	getchar();
 	fgets(path, 1024, stdin);
-	path[strlen(path) - 1] = 0;
-	if (*path)
+	if (*path) {
+		path[strlen(path) - 1] = 0;
 		log_file = fopen(path, "w");
+	}
 
 	packet_no = 0;
 
 	struct sw *s = switch_new(ports);
 
-	int i, in, out;
+	int i, in;
 
 	for (i = 0; i < test_no; i++) {
 		if (log_file) {
@@ -55,11 +56,9 @@ int main(int argc, char *argv[])
 			switch_print(s, log_file);
 		}
 		for (in = 0; in < ports; in++) {
-			for (out = 0; out < ports; out++) {
-				if (rand() % 100 < load) {
-					switch_put_in_queue(s, in, out, 1);
-					packet_no++;
-				}
+			if (rand() % 100 < load) {
+				switch_put_in_queue(s, in, rand() % ports, 1);
+				packet_no++;
 			}
 		}
 		switch_next_matching(s);
